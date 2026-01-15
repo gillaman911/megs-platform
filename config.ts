@@ -43,7 +43,7 @@ export const PROFILES: Record<string, AppProfile> = {
             dashboard: 'LayoutDashboard'
         }
     },
-    real_estate: {
+    'real-estate': {
         id: 'real-estate',
         name: 'MEGS Estate',
         appName: 'MEGS Estate',
