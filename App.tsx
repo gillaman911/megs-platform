@@ -302,11 +302,14 @@ const App: React.FC = () => {
   };
 
   const changeProfile = (profileId: string) => {
+    console.log('Attempting to switch profile to:', profileId, 'Available profiles:', Object.keys(PROFILES));
     if (PROFILES[profileId]) {
       setProfile(PROFILES[profileId]);
       // Also reset trends as they are profile specific
       setTrends([]);
       showNotification(`Profile switched to ${PROFILES[profileId].appName}`, 'success');
+    } else {
+      console.error('Profile not found:', profileId);
     }
   };
 
@@ -324,7 +327,7 @@ const App: React.FC = () => {
               {profile.id === 'real-estate' ? <Home className="text-white" size={20} /> : <Palette className="text-white" size={20} />}
             </div>
             <h1 className="text-xl font-black text-white uppercase tracking-tighter italic">{profile.appName}</h1>
-            <span className="text-[9px] font-mono text-slate-500 mt-1">v1.2</span>
+            <span className="text-[9px] font-mono text-slate-500 mt-1">v1.3</span>
           </div>
           <nav className="space-y-2">
             <SidebarItem icon={<LayoutDashboard size={20} />} label="Overview" active={activeTab === 'dashboard'} onClick={() => { setActiveTab('dashboard'); setViewingPostId(null); }} colorClass={bgColor} />
