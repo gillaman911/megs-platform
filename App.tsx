@@ -324,6 +324,7 @@ const App: React.FC = () => {
               {profile.id === 'real-estate' ? <Home className="text-white" size={20} /> : <Palette className="text-white" size={20} />}
             </div>
             <h1 className="text-xl font-black text-white uppercase tracking-tighter italic">{profile.appName}</h1>
+            <span className="text-[9px] font-mono text-slate-500 mt-1">v1.2</span>
           </div>
           <nav className="space-y-2">
             <SidebarItem icon={<LayoutDashboard size={20} />} label="Overview" active={activeTab === 'dashboard'} onClick={() => { setActiveTab('dashboard'); setViewingPostId(null); }} colorClass={bgColor} />
