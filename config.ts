@@ -56,9 +56,9 @@ export const PROFILES: Record<string, AppProfile> = {
             panelColor: 'slate-900',
         },
         prompts: {
-            newsSearch: "Identify top 5 real estate market trends, mortgage rate updates, or luxury housing market news from the last 24 hours.",
-            editorialGen: "Write a LUXURY REAL ESTATE market analysis or property showcase article.",
-            imageGen: "Luxury real estate editorial image. Modern architecture, golden hour lighting, high-end interior.",
+            newsSearch: "Identify top 5 real estate market trends, mortgage rate updates, luxury housing market news, or notable property sales from the last 24 hours.",
+            editorialGen: "Write an EDITORIAL GRADE LUXURY REAL ESTATE market analysis article. Include market insights, buyer trends, and investment perspectives. Generate social media spinoffs for LinkedIn (professional investor focused), X (punchy market update), and Facebook (community/first-time buyer focused).",
+            imageGen: "Luxury real estate editorial image. Modern architecture, golden hour lighting, high-end interior design, aspirational lifestyle photography.",
         },
         icons: {
             dashboard: 'Home'
