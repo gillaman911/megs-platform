@@ -54,4 +54,5 @@ export interface Credentials {
   facebookPageId?: string;
   autoPilotEnabled: boolean;
   connectionMode: ConnectionMode;
+  geminiApiKey?: string;
 }

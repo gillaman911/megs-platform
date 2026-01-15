@@ -2,7 +2,29 @@
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 import { TechNewsTrend, ContentPost, PostStatus, SocialVariation, ContentType } from "./types";
 
-const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
+const getAI = () => {
+  // 1. Try to get key from LocalStorage (MEGS Settings)
+  const savedCreds = localStorage.getItem('teknowguy_credentials');
+  let apiKey = process.env.API_KEY;
+
+  if (savedCreds) {
+    try {
+      const parsed = JSON.parse(savedCreds);
+      if (parsed.geminiApiKey) {
+        apiKey = parsed.geminiApiKey;
+      }
+    } catch (e) {
+      console.error("Failed to read creds for key", e);
+    }
+  }
+
+  // 2. Fallback to process.env if available (dev mode) or error
+  if (!apiKey) {
+    console.warn("Gemini API Key is missing. Please set it in Settings.");
+  }
+
+  return new GoogleGenAI({ apiKey: apiKey });
+};
 
 const safeParseJson = (text: string) => {
   try {
@@ -48,7 +70,7 @@ export const searchTrendingTechNews = async (
 
   try {
     const searchResponse = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash-exp",
       contents: `${systemPrompt} Return a JSON array of objects with title, snippet, source, and url.`,
       config: {
         tools: [{ googleSearch: {} }],
@@ -58,9 +80,11 @@ export const searchTrendingTechNews = async (
 
     return safeParseJson(searchResponse.text || "[]");
   } catch (error: any) {
+    console.error("Search Error", error);
     onStatus?.("Search offline. Accessing internal knowledge...");
+    // Only attempt fallback if we have a key, otherwise throw to let UI know
     const fallbackResponse = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash-exp",
       contents: `Generate 5 trending topics based on this criteria: "${systemPrompt}". Be highly specific. Format as JSON array of objects with title, snippet, source, and url.`,
       config: { responseMimeType: "application/json" }
     });
@@ -112,7 +136,7 @@ export const generateFullBlogPost = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-pro-preview",
+      model: "gemini-2.0-flash-exp",
       contents: prompt,
       config: {
         responseMimeType: "application/json"
@@ -122,7 +146,7 @@ export const generateFullBlogPost = async (
     return safeParseJson(response.text || "{}");
   } catch (e) {
     const fallbackResponse = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash-exp",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -151,7 +175,7 @@ export const rewriteSelection = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash-exp",
       contents: prompt
     });
     return response.text || originalText;
