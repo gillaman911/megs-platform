@@ -1,0 +1,8 @@
+{
+  "name": "Teknowguy Auto-Publisher",
+  "description": "An AI-powered automation hub for searching trending tech news, generating SEO-optimized blogs with images, and scheduling multi-platform social media content.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
